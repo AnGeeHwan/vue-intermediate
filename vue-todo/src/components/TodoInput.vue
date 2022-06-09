@@ -4,26 +4,46 @@
     <span class="addContainer" v-on:click="addTodo">
       <i class="addBtn fas fa-plus" aria-hidden="true"></i>
     </span>
+    <CommonModal v-if="showModal" @close="showModal = false">
+      <!--
+      you can use custom content here to overwrite
+      default content
+    -->
+      <h3 slot="header">
+        경고!
+        <i class="closeModalBtn fas fa-times" @click="showModal = false"></i>
+      </h3>
+      <h3 slot="body">아무것도 입력하지 않았습니다.</h3>
+    </CommonModal>
   </div>
 </template>
 
 <script>
+/* eslint-disable */
+import CommonModal from "./common/CommonModal.vue";
+
 export default {
-  data: function () {
+  data() {
     return {
       newTodoItem: "",
+      showModal: false,
     };
   },
   methods: {
-    addTodo: function () {
+    addTodo() {
       if (this.newTodoItem !== "") {
-        this.$emit("addTodoItem", this.newTodoItem)
+        this.$emit("addTodoItem", this.newTodoItem);
         this.clearInput();
+      } else {
+        this.showModal = !this.showModal;
       }
     },
-    clearInput: function () {
+    clearInput() {
       this.newTodoItem = "";
     },
+  },
+  components: {
+    CommonModal,
   },
 };
 </script>
@@ -52,5 +72,8 @@ input:focus {
 .addBtn {
   color: white;
   vertical-align: middle;
+}
+.closeModalBtn {
+  color: #42b983;
 }
 </style>

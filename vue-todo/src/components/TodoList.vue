@@ -1,6 +1,6 @@
 <template>
-  <section>
-    <ul>
+  <div>
+    <transition-group name="list" tag="p">
       <li
         v-for="(todoItem, index) in propsdata"
         class="shadow"
@@ -18,8 +18,8 @@
           <i class="removeBtn fas fa-trash-alt"></i>
         </span>
       </li>
-    </ul>
-  </section>
+    </transition-group>
+  </div>
 </template>
 
 <script>
@@ -27,17 +27,21 @@
 export default {
   props: ["propsdata"],
   methods: {
-    removeTodo: function (todoItem, index) {
+    removeTodo(todoItem, index) {
       this.$emit("removeItem", todoItem, index);
     },
-    toggleComplete: function (todoItem, index) {
-      this.$emit('toggleItem', todoItem, index)
+    toggleComplete(todoItem, index) {
+      this.$emit("toggleItem", todoItem, index);
     },
   },
 };
 </script>
 
 <style scoped>
+.removeBtn {
+  margin-left: auto;
+  color: #de4343;
+}
 ul {
   list-style-type: none;
   padding-left: 0px;
@@ -67,8 +71,19 @@ li {
 .textCompleted {
   text-decoration: line-through;
 }
-.removeBtn {
-  margin-left: auto;
-  color: #de4343;
+
+/* 리스트 아이템 트랜지션 효과 */
+.list-item {
+  display: inline-block;
+  margin-right: 10px;
+}
+.list-enter-active,
+.list-leave-active {
+  transition: all 1s;
+}
+.list-enter,
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
 }
 </style>
